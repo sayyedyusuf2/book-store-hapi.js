@@ -3,6 +3,7 @@ const Vision = require("@hapi/vision");
 const Inert = require("@hapi/inert");
 const mongoose = require("mongoose");
 const indexRoute = require("./routes/indexRoute");
+const port = process.env.PORT;
 
 mongoose
   .connect(process.env.DB_URL)
@@ -11,7 +12,7 @@ mongoose
 
 async function init() {
   const server = Hapi.server({
-    port: process.env.PORT || 3000,
+    port: port,
     host: "localhost",
   });
   await server.register([
