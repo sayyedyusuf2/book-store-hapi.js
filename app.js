@@ -13,7 +13,7 @@ mongoose
 async function init() {
   const server = Hapi.server({
     port: port,
-    host: "localhost",
+    host: "https://node-bookstore-hapi.herokuapp.com",
   });
   await server.register([
     Inert,
