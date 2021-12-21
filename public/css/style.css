@@ -9,6 +9,10 @@ li {
 
 .book {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .book h4 {
