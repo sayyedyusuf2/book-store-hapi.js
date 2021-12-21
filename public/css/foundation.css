@@ -1296,6 +1296,7 @@ button {
   }
   .large-3 {
     width: 25%;
+    height: 500px;
   }
   .large-push-3 {
     position: relative;
