@@ -1,0 +1,41 @@
+extends ./../../layouts/manage
+
+block content
+ .row
+  .large-12.columns
+   h2 Add Book
+   form(method='post', action=`/manage/books/edit/${book._id}`)
+    .row
+     .large-12.columns
+      label Title
+      input(type='text', name='title', value=book.title)
+    .row
+     .large-12.columns
+      label Author
+      input(type='text', name='author', value=book.author)
+    .row
+     .large-12.columns
+      label Publisher
+      input(type='text', name='publisher', value=book.publisher)
+    .row
+     .large-12.columns
+      label Price
+      input(type='text', name='price', value=book.price)
+    .row
+     .large-12.columns
+      label Category
+      select(name='category')
+       each category,i in categories
+        option(value=category.name) #{category.name} 
+    .row
+     .large-12.columns
+      label Description
+      textarea(type='text', name='description',)=book.description
+    .row
+     .large-12.columns
+      label Cover URL
+      input(type='text', name='coverImage', value=book.coverImage)
+    .row
+     .large-12.columns
+      input.button(type='submit', value='Submit')
+      input(type='hidden', name='_csrf', value='{_csrf}')

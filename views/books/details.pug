@@ -1,0 +1,20 @@
+extends ./../layouts/master 
+
+block content 
+ .large-4.columns.book
+  img(src=book.coverImage)
+ .large-8.columns.book
+  h2=book.title
+   ul.bookInfo
+    li Category: #{book.category}
+    li Author: #{book.author}
+    li Publisher: #{book.publisher}
+  br
+  .price
+   span ₹#{book.price}
+  br
+  p
+   | #{book.description}
+  form(method='post', action=`/cart/${book._id}`)
+   input.button.success(type='submit', value='Add To Cart')
+   input(type='hidden', value='{_csrf}', name='_csrf')

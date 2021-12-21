@@ -1,0 +1,15 @@
+extends ./../../layouts/manage
+
+block content 
+ .row
+  .large-12.columns
+   h2 Edit Category
+   form(method='post', action=`/manage/categories/edit/${category._id}`)
+    .row
+     .large-12.columns
+      label Name
+      input(type='text', name='name', value=category.name)
+    .row
+     .large-12.columns
+      input.button(type='submit', value='Submit')
+      input(type='hidden', name='_csrf', value='{_csrf}')

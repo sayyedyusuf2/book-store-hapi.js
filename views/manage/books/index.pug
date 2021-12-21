@@ -1,0 +1,27 @@
+extends ./../../layouts/manage
+
+block content 
+ h2 Books
+ p
+  a(href='/manage/books/add') Add Book
+ table
+  thead
+   tr
+    th(width='200') ID
+    th(width='200') Book Title
+    th(width='200') Category
+    th(width='180')
+    th(width='180')
+  tbody
+   each book,i in books
+    tr
+     td=book._id
+     td=book.title
+     td=book.category
+     td
+      a.button(href=`/manage/books/edit/${book._id}`) Edit
+     td
+      form(method='post', action=`/manage/books/delete/${book._id}`)
+       input.button.alert(type='submit', value='Delete')
+       input(type='hidden', name='_csrf', value='{_csrf}')
+       input(type='hidden', name='_method', value='DELETE')

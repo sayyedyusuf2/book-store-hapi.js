@@ -1,0 +1,31 @@
+doctype html
+head
+ title Book Store
+ link(rel='stylesheet', href='/css/foundation.css')
+ link(rel='stylesheet', href='/css/style.css')
+body
+ .row
+  .large-12.columns
+   h1 TekBooks
+   .row
+    .large-12.columns
+     .top-bar
+      .top-bar-left
+       ul.menu
+        li 
+         a(href='/') Home
+        li
+         a(href='/about') About
+        li
+         a(href='/cart') Cart
+ .row
+  .large-12.columns 
+   block content
+footer
+ .row
+  .large-12.columns
+   p
+    | TekBooks &copy; 2016 | 
+    a(href='/manage') Manage
+//-  script(data-main='/js/app', src='/components/requirejs/require.js')
+ script(src='/js/vendors/foundation.js')

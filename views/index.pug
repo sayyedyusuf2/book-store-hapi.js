@@ -1,0 +1,12 @@
+extends ./layouts/master
+
+block content
+ each book, i in books
+  .large-3.columns.book.end 
+   img(src=book.coverImage alt='')
+   h4=book.title
+   p=book.truncText(150)
+   .price Buy it for 
+    span ₹#{book.price}
+   br
+   a.button.small(href=`/books/details/${book._id}`) Book Details
