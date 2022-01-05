@@ -3,7 +3,12 @@ const Vision = require("@hapi/vision");
 const Inert = require("@hapi/inert");
 const mongoose = require("mongoose");
 const indexRoute = require("./routes/indexRoute");
-const port = process.env.PORT;
+const dotenv = require("dotenv");
+const joi = require("joi");
+const hapiSwagger = require("hapi-swagger");
+const pack = require("./package.json");
+dotenv.config();
+const port = process.env.PORT || 3000;
 
 mongoose
   .connect(process.env.DB_URL)
@@ -22,6 +27,15 @@ async function init() {
       options: {
         cookie: {
           isSecure: false, // never set to false in production
+        },
+      },
+    },
+    {
+      plugin: hapiSwagger,
+      options: {
+        info: {
+          title: "Test API Documentation",
+          version: pack.version,
         },
       },
     },

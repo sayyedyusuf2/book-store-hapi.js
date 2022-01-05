@@ -5,5 +5,8 @@ module.exports = [
     method: "GET",
     path: "/books/details/{id}",
     handler: bookController.showDetailsPage,
+    options: {
+      tags: ["api"],
+    },
   },
 ];

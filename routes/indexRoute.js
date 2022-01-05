@@ -11,12 +11,18 @@ module.exports = [
       const books = await Book.find({});
       return h.view("index", { books });
     },
+    options: {
+      tags: ["api"],
+    },
   },
   {
     method: "GET",
     path: "/about",
     handler: (request, h) => {
       return h.view("pages/about");
+    },
+    options: {
+      tags: ["api"],
     },
   },
 ].concat(bookRoute, manageRoute, cartRoute);

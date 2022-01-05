@@ -6,5 +6,8 @@ module.exports = [
     method: "POST",
     path: "/cart/{id}",
     handler: cartController.handleCartSubmittion,
+    options: {
+      tags: ["api"],
+    },
   },
 ];
