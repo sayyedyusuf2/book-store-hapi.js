@@ -57,12 +57,7 @@ exports.login = async function (request, h) {
     const token = jwt.sign(user.id, process.env.JWT_SECRET);
     h.state("token", token);
     app.changeContext(user);
-    return responseFormatter(
-      "Successful",
-      200,
-      `Logged in successfully`,
-      token
-    );
+    return h.redirect("/");
   } catch (err) {
     console.log(err);
     return responseFormatter(
@@ -76,5 +71,5 @@ exports.login = async function (request, h) {
 
 exports.logout = function (request, h) {
   app.changeContext(null);
-  return h.response("bye").unstate("token");
+  return h.redirect("/").unstate("token");
 };

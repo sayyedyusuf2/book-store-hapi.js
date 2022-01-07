@@ -34,7 +34,7 @@ module.exports = [
       tags: ["api"],
 
       validate: {
-        payload: Joi.object({
+        query: Joi.object({
           title: Joi.string(),
           author: Joi.string(),
           publisher: Joi.string(),
