@@ -1,6 +1,7 @@
 const bookRoute = require("./bookRoute");
 const manageRoute = require("./manageRoute");
 const cartRoute = require("./cartRoute");
+const userRoute = require("./userRoute");
 const Book = require("./../model/bookModel");
 
 module.exports = [
@@ -9,10 +10,14 @@ module.exports = [
     path: "/",
     handler: async (request, h) => {
       const books = await Book.find({});
+      h.response(books);
       return h.view("index", { books });
     },
     options: {
       tags: ["api"],
+      auth: {
+        mode: "try",
+      },
     },
   },
   {
@@ -23,6 +28,7 @@ module.exports = [
     },
     options: {
       tags: ["api"],
+      auth: false,
     },
   },
-].concat(bookRoute, manageRoute, cartRoute);
+].concat(bookRoute, manageRoute, cartRoute, userRoute);

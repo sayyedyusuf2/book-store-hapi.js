@@ -18,6 +18,12 @@ body
          a(href='/about') About
         li
          a(href='/cart') Cart
+        if !user
+         li
+          a(href='/login') Login
+        if user
+         li
+          a(href='/logout') Logout
  .row
   .large-12.columns 
    block content

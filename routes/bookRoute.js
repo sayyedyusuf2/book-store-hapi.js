@@ -7,6 +7,7 @@ module.exports = [
     handler: bookController.showDetailsPage,
     options: {
       tags: ["api"],
+      auth: false,
     },
   },
 ];

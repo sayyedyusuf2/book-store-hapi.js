@@ -4,24 +4,40 @@ const Inert = require("@hapi/inert");
 const mongoose = require("mongoose");
 const indexRoute = require("./routes/indexRoute");
 const dotenv = require("dotenv");
-const joi = require("joi");
+const path = require("path");
+const jwt = require("jsonwebtoken");
+// const joi = require("joi");
 const hapiSwagger = require("hapi-swagger");
 const pack = require("./package.json");
 dotenv.config();
 const port = process.env.PORT || 3000;
+const User = require("./model/userModel");
+const { request } = require("https");
 
 mongoose
   .connect(process.env.DB_URL)
   .then(() => console.log("DB connection successful"))
   .catch((err) => console.log(err));
 
+const context = {};
+
+function changeContext(user) {
+  context.user = user;
+}
+
 async function init() {
   const server = Hapi.server({
     port: port,
+    routes: {
+      files: {
+        relativeTo: path.join(__dirname, "public"),
+      },
+    },
   });
   await server.register([
     Inert,
     Vision,
+    require("hapi-auth-jwt2"),
     {
       plugin: require("hapi-server-session"),
       options: {
@@ -41,41 +57,54 @@ async function init() {
     },
   ]);
 
+  server.auth.strategy("jwt", "jwt", {
+    key: process.env.JWT_SECRET,
+    validate: async function (decoded, request, h) {
+      try {
+        const user = await User.findById(decoded);
+        if (!user) {
+          return { isValid: false };
+        }
+        changeContext(user);
+        return { isValid: true, credentials: { user } };
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    },
+  });
+
+  server.auth.default("jwt");
+
+  // server.state("jwt", {
+  //   ttl: null,
+  //   isSecure: false,
+  //   isHttpOnly: true,
+  //   encoding: "base64json",
+  //   clearInvalid: true,
+  //   strictHeader: true,
+  // });
+
   server.views({
     engines: {
       pug: require("pug"),
     },
     relativeTo: __dirname,
     path: "views",
+    context,
   });
 
   server.route({
     method: "GET",
-    path: "/css/{file*}",
+    path: "/{param*}",
     handler: {
       directory: {
-        path: "public/css",
+        path: ".",
+        redirectToSlash: true,
       },
     },
-  });
-
-  server.route({
-    method: "GET",
-    path: "/js/{file*}",
-    handler: {
-      directory: {
-        path: "public/js",
-      },
-    },
-  });
-
-  server.route({
-    method: "GET",
-    path: "/js/vendor/{file*}",
-    handler: {
-      directory: {
-        path: "public/js/vendor",
-      },
+    options: {
+      auth: false,
     },
   });
 
@@ -92,3 +121,5 @@ process.on("unhandledRejection", (err) => {
 });
 
 init();
+
+exports.changeContext = changeContext;

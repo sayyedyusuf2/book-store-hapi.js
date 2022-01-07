@@ -32,6 +32,7 @@ module.exports = [
     handler: manageControllers.handleBooksAdd,
     options: {
       tags: ["api"],
+
       validate: {
         payload: Joi.object({
           title: Joi.string(),
